@@ -3,6 +3,7 @@ package application;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +11,8 @@ public class DogBreedSearchApp extends Frame implements ActionListener {
     private Button bex = new Button("Exit");
     private Button sea = new Button("Search");
     private TextArea resultArea = new TextArea();
-    private TextField urlField1 = new TextField("file:///Users/ivandolgolaptev/IdeaProjects/Laba1/src/main/java/utils/first.txt");
-    private TextField urlField2 = new TextField("file:///Users/ivandolgolaptev/IdeaProjects/Laba1/src/main/java/utils/second.txt");
+    private TextField urlField1 = new TextField("http://localhost:8000/first.txt");
+    private TextField urlField2 = new TextField("http://localhost:8000/second.txt");
     private TextField searchField = new TextField();
     private DogBreedSearcher searcher = new DogBreedSearcher();
 
@@ -86,6 +87,11 @@ public class DogBreedSearchApp extends Frame implements ActionListener {
     }
 
     public static void main(String[] args) {
+        try {
+            SimpleHttpServer.startServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         new DogBreedSearchApp();
     }
 }
