@@ -15,14 +15,16 @@ public class DogBreedSearcher {
         List<String> matches1 = searchBreeds(urlString1, keywords);
         List<String> matches2 = searchBreeds(urlString2, keywords);
 
-        if (matches1.size() >= matches2.size()) {
+        if (matches1.size() > matches2.size()) {
             return new SimpleEntry<>(urlString1, matches1);
-        } else {
+        } else if (matches2.size() > matches1.size()) {
             return new SimpleEntry<>(urlString2, matches2);
+        } else {
+            return new SimpleEntry<>(urlString1, matches1);
         }
     }
 
-    private List<String> searchBreeds(String urlString, String[] keywords) {
+    public List<String> searchBreeds(String urlString, String[] keywords) {
         List<String> matches = new ArrayList<>();
         try {
             URL url = new URL(urlString);

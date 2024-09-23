@@ -41,6 +41,10 @@ public class DogBreedSearchApp extends Frame implements ActionListener {
         this.setVisible(true);
     }
 
+    private String extractFileName(String url) {
+        return url.substring(url.lastIndexOf("/") + 1);
+    }
+
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == bex) {
@@ -55,9 +59,28 @@ public class DogBreedSearchApp extends Frame implements ActionListener {
             Map.Entry<String, List<String>> bestMatch = searcher.searchBreedsInTwoFiles(url1, url2, keywords);
 
             resultArea.setText("");
-            resultArea.append("Best match from file: " + bestMatch.getKey() + "\n");
-            for (String match : bestMatch.getValue()) {
-                resultArea.append(match + "\n");
+
+            List<String> matches1 = searcher.searchBreeds(url1, keywords);
+            List<String> matches2 = searcher.searchBreeds(url2, keywords);
+
+            if (matches1.isEmpty() && matches2.isEmpty()) {
+                resultArea.append("No matches found in either file.\n");
+            } else if (matches1.size() == matches2.size() && matches1.size() > 0) {
+                resultArea.append("Both files have the same number of matches:\n");
+                resultArea.append(extractFileName(url1) + ":\n");
+                for (String match : matches1) {
+                    resultArea.append(match + "\n");
+                }
+                resultArea.append("\n" + extractFileName(url2) + ":\n");
+                for (String match : matches2) {
+                    resultArea.append(match + "\n");
+                }
+            } else {
+                resultArea.append("Best match from file: " + extractFileName(bestMatch.getKey()) + "\n");
+                resultArea.append("Matches:\n");
+                for (String match : bestMatch.getValue()) {
+                    resultArea.append(match + "\n");
+                }
             }
         }
     }
